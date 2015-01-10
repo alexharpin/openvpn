@@ -38,6 +38,7 @@ endif
 
 config.status:
 	dh_testdir
+	autoreconf -i
 	# Add here commands to configure the package.
 	./configure --enable-pthread --enable-password-save --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --with-ifconfig-path=/sbin/ifconfig --with-route-path=$(ROUTE_PATH) CFLAGS='$(CFLAGS)'
 
