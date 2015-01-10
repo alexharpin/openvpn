@@ -616,6 +616,10 @@ buf_read_u32 (struct buffer *buf, bool *good)
     }
 }
 
+/**
+ * Compare src buffer contents with match.
+ * *NOT* constant time. Do not use when comparing HMACs.
+ */
 static inline bool
 buf_string_match (const struct buffer *src, const void *match, int size)
 {
@@ -624,6 +628,10 @@ buf_string_match (const struct buffer *src, const void *match, int size)
   return memcmp (BPTR (src), match, size) == 0;
 }
 
+/**
+ * Compare first size bytes of src buffer contents with match.
+ * *NOT* constant time. Do not use when comparing HMACs.
+ */
 static inline bool
 buf_string_match_head (const struct buffer *src, const void *match, int size)
 {
