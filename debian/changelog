@@ -1,3 +1,10 @@
+openvpn (2.1.3+vyos1+helium2) unstable; urgency=low
+
+  [ Alex Harpin ]
+  * Add upstream patch to address CVE-2014-8104 in version 2.1.3
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Wed, 25 Feb 2015 07:42:07 +0000
+ 
 openvpn (2.1.3+vyos1+helium1) unstable; urgency=low
 
   [ Alex Harpin ]
