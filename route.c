@@ -450,7 +450,7 @@ init_route_list (struct route_list *rl,
 	struct route r;
 	int k;
 
-	CLEAR(netlist);                /* init_route() will not always init this */
+        CLEAR(netlist);		/* init_route() will not always init this */
 
 	if (!init_route (&r,
 			 &netlist,
