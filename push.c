@@ -68,8 +68,18 @@ receive_auth_failed (struct context *c, const struct buffer *buffer)
 	  if (buf_string_compare_advance (&buf, "AUTH_FAILED,") && BLEN (&buf))
 	    reason = BSTR (&buf);
 	  management_auth_failure (management, UP_TYPE_AUTH, reason);
-	}
+	} else
 #endif
+	{
+#ifdef ENABLE_CLIENT_CR
+	  struct buffer buf = *buffer;
+	  if (buf_string_match_head_str (&buf, "AUTH_FAILED,CRV1:") && BLEN (&buf))
+	    {
+	      buf_advance (&buf, 12); /* Length of "AUTH_FAILED," substring */
+	      ssl_put_auth_challenge (BSTR (&buf));
+	    }
+#endif
+	}
     }
 }
 
@@ -179,7 +189,7 @@ send_push_reply (struct context *c)
   const int safe_cap = BCAP (&buf) - extra;
   bool push_sent = false;
 
-  buf_printf (&buf, cmd);
+  buf_printf (&buf, "%s", cmd);
 
   while (e)
     {
@@ -196,7 +206,7 @@ send_push_reply (struct context *c)
 		push_sent = true;
 		multi_push = true;
 		buf_reset_len (&buf);
-		buf_printf (&buf, cmd);
+		buf_printf (&buf, "%s", cmd);
 	      }
 	    }
 	  if (BLEN (&buf) + l >= safe_cap)
@@ -232,7 +242,7 @@ send_push_reply (struct context *c)
       bool status = false;
 
       buf_reset_len (&buf);
-      buf_printf (&buf, cmd);
+      buf_printf (&buf, "%s", cmd);
       status = send_control_channel_string (c, BSTR(&buf), D_PUSH);
       if (!status)
 	goto fail;
