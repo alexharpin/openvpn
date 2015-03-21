@@ -355,6 +355,8 @@ struct options
   struct plugin_option_list *plugin_list;
 #endif
 
+  const char *tmp_dir;
+
 #if P2MP
 
 #if P2MP_SERVER
@@ -387,7 +389,6 @@ struct options
   const char *client_connect_script;
   const char *client_disconnect_script;
   const char *learn_address_script;
-  const char *tmp_dir;
   const char *client_config_dir;
   bool ccd_exclusive;
   bool disable;
@@ -419,6 +420,7 @@ struct options
   bool client;
   bool pull; /* client pull of config options from server */
   int push_continuation;
+  unsigned int push_option_types_found;
   const char *auth_user_pass_file;
   struct options_pre_pull *pre_pull;
 

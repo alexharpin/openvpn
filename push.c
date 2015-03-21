@@ -161,8 +161,10 @@ incoming_push_message (struct context *c, const struct buffer *buffer)
     msg (D_PUSH_ERRORS, "WARNING: Received bad push/pull message: %s", BSTR (buffer));
   else if (status == PUSH_MSG_REPLY || status == PUSH_MSG_CONTINUATION)
     {
+      c->options.push_option_types_found |= option_types_found;
+
       if (status == PUSH_MSG_REPLY)
-	do_up (c, true, option_types_found); /* delay bringing tun/tap up until --push parms received from remote */
+	do_up (c, true, c->options.push_option_types_found ); /* delay bringing tun/tap up until --push parms received from remote */
       event_timeout_clear (&c->c2.push_request_interval);
     }
 
@@ -358,10 +360,14 @@ process_incoming_push_msg (struct context *c,
       if (ch == ',')
 	{
 	  struct buffer buf_orig = buf;
+	  if (!c->c2.pulled_options_md5_init_done)
+	    {
+	      md5_state_init (&c->c2.pulled_options_state);
+	      c->c2.pulled_options_md5_init_done = true;
+	    }
 	  if (!c->c2.did_pre_pull_restore)
 	    {
 	      pre_pull_restore (&c->options);
-	      md5_state_init (&c->c2.pulled_options_state);
 	      c->c2.did_pre_pull_restore = true;
 	    }
 	  if (apply_push_options (&c->options,
@@ -375,6 +381,7 @@ process_incoming_push_msg (struct context *c,
 	      case 1:
 		md5_state_update (&c->c2.pulled_options_state, BPTR(&buf_orig), BLEN(&buf_orig));
 		md5_state_final (&c->c2.pulled_options_state, &c->c2.pulled_options_digest);
+	        c->c2.pulled_options_md5_init_done = false;
 		ret = PUSH_MSG_REPLY;
 		break;
 	      case 2:

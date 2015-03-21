@@ -298,6 +298,10 @@
 #include <netinet/ip.h>
 #endif
 
+#ifdef HAVE_NETINET_TCP_H
+#include <netinet/tcp.h>
+#endif
+
 #ifdef HAVE_NET_IF_TUN_H
 #include <net/if_tun.h>
 #endif
@@ -651,6 +655,8 @@ socket_defined (const socket_descriptor_t sd)
 /*
  * Do we support pushing peer info?
  */
+#if defined(USE_CRYPTO) && defined(USE_SSL)
 #define ENABLE_PUSH_PEER_INFO
+#endif
 
 #endif

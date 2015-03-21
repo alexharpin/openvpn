@@ -1127,7 +1127,7 @@ open_tun (const char *dev, const char *dev_type, const char *dev_node, bool ipv6
       if ((tt->fd = open (node, O_RDWR)) < 0)
 	{
 	  msg (M_WARN | M_ERRNO, "Note: Cannot open TUN/TAP dev %s", node);
-	  goto linux_2_2_fallback;
+	  return;
 	}
 
       /*
@@ -1171,7 +1171,7 @@ open_tun (const char *dev, const char *dev_type, const char *dev_node, bool ipv6
       if (ioctl (tt->fd, TUNSETIFF, (void *) &ifr) < 0)
 	{
 	  msg (M_WARN | M_ERRNO, "Note: Cannot ioctl TUNSETIFF %s", dev);
-	  goto linux_2_2_fallback;
+	  return;
 	}
 
       msg (M_INFO, "TUN/TAP device %s opened", ifr.ifr_name);
@@ -1207,15 +1207,6 @@ open_tun (const char *dev, const char *dev_type, const char *dev_node, bool ipv6
       tt->actual_name = string_alloc (ifr.ifr_name, NULL);
     }
   return;
-
- linux_2_2_fallback:
-  msg (M_INFO, "Note: Attempting fallback to kernel 2.2 TUN/TAP interface");
-  if (tt->fd >= 0)
-    {
-      close (tt->fd);
-      tt->fd = -1;
-    }
-  open_tun_generic (dev, dev_type, dev_node, ipv6, false, true, tt);
 }
 
 #else
@@ -4109,6 +4100,14 @@ open_tun (const char *dev, const char *dev_type, const char *dev_node, bool ipv6
       msg (M_FATAL, "ERROR:  This version of " PACKAGE_NAME " requires a TAP-Win32 driver that is at least version %d.%d -- If you recently upgraded your " PACKAGE_NAME " distribution, a reboot is probably required at this point to get Windows to see the new driver.",
 	   TAP_WIN32_MIN_MAJOR,
 	   TAP_WIN32_MIN_MINOR);
+
+    /* tap driver 9.8 (2.2.0 and 2.2.1 release) is buggy
+     */
+    if ( tt->type == DEV_TYPE_TUN &&
+	 info[0] == 9 && info[1] == 8)
+      {
+	msg( M_FATAL, "ERROR:  Tap-Win32 driver version %d.%d is buggy regarding small IPv4 packets in TUN mode.  Upgrade to Tap-Win32 9.9 (2.2.2 release or later) or use TAP mode", (int) info[0], (int) info[1] );
+      }
   }
 
   /* get driver MTU */
