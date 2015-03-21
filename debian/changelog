@@ -1,3 +1,11 @@
+openvpn (2.2.3+vyos2+lithium6) unstable; urgency=low
+
+  [ Alex Harpin ]
+  * Update debian packaging for 2.2.3
+  * openvpn: update dh_gencontrol to use new development build flag
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Sat, 21 Mar 2015 15:53:09 +0000
+ 
 openvpn (2.2.3+vyos2+lithium5) unstable; urgency=low
 
   [ Alex Harpin ]
