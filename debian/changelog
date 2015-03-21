@@ -1,3 +1,10 @@
+openvpn (2.2.3+vyos2+lithium5) unstable; urgency=low
+
+  [ Alex Harpin ]
+  * Update to upstream version 2.2.3
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Sat, 21 Mar 2015 15:16:33 +0000
+ 
 openvpn (2.2.0+vyos2+lithium4) unstable; urgency=low
 
   [ Alex Harpin ]
