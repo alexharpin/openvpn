@@ -107,7 +107,7 @@ binary-arch: build install
 	rm -rf $(CURDIR)/debian/openvpn/usr/share/doc/openvpn/examples/easy-rsa/Windows
 	# clean permissions to make lintian happy
 	chmod a-x $(CURDIR)/debian/openvpn/usr/share/doc/openvpn/examples/easy-rsa/2.0/vars
-	chmod a-x $(CURDIR)/debian/openvpn/usr/share/doc/openvpn/examples/easy-rsa/2.0/openssl.cnf
+	chmod a-x $(CURDIR)/debian/openvpn/usr/share/doc/openvpn/examples/easy-rsa/2.0/openssl-0.9.8.cnf
 	dh_installmenu
 #	dh_installlogrotate
 #	dh_installemacsen
@@ -121,7 +121,7 @@ binary-arch: build install
 	dh_installchangelogs ChangeLog
 	dh_link
 	dh_strip
-	dh_compress --exclude=openssl.cnf --exclude=pkitool
+	dh_compress --exclude=openssl.cnf --exclude=openssl-0.9.8.cnf --exclude=pkitool
 	dh_fixperms
 #	dh_makeshlibs
 	dh_installdeb
