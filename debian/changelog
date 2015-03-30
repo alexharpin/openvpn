@@ -1,3 +1,14 @@
+openvpn (2.2.3+vyos2+lithium7) unstable; urgency=low
+
+  [ Alex Harpin ]
+  * Update debian packaging
+  * Bring openvpn man page in line with upstream
+  * openvpn: remove legacy debian_openssl_vulnkeys patch
+  * openvpn: remove openssl-blacklist and openvpn-blacklist dependencies
+  * Remove ipv6 debian documentation from package docs
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Mon, 30 Mar 2015 23:55:12 +0100
+ 
 openvpn (2.2.3+vyos2+lithium6) unstable; urgency=low
 
   [ Alex Harpin ]
