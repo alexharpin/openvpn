@@ -1,3 +1,10 @@
+openvpn (2.2.3+vyos2+lithium8) unstable; urgency=low
+
+  [ Alex Harpin ]
+  * Remove unused debian patches 
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Thu, 02 Apr 2015 21:25:26 +0100
+ 
 openvpn (2.2.3+vyos2+lithium7) unstable; urgency=low
 
   [ Alex Harpin ]
